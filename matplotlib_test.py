@@ -11,13 +11,46 @@ my_map.drawcountries()
 my_map.drawmapboundary()
 my_map.drawstates()
 
+def remap_interval(val, input_start, input_end, output_start, output_end):
+    """
+    takes an input interval, a value in the input interval and returns a 
+    subsequent value in the output interval 
+
+    >>> remap_interval(5, 0, 10, 0, 20)
+    10
+    """
+    #everything needs to be a float
+    float(val)
+    float(input_end)
+    float(input_start)
+    float(output_end)
+    float(output_start)
+
+    #everything needs to be a float
+    input_space = float(input_end-input_start)
+    output_space = float(output_end-output_start)
+    diff = val - input_start
+
+    #gets the value in a form that compares it to the input interval
+    ratio = output_space/input_space
+    newval = output_start + diff*ratio
+    return int(newval)
+
+
+def point_in_polygon(pt, polygon):
+    """Returns True iff `pt` is inside `polygon`.
+    `polygon` is a list of tuples `(x, y)`."""
+    return matplotlib.path.Path(polygon).contains_point(pt)
+
 def OnClick(event):
     # print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
         # event.button, event.x, event.y, event.xdata, event.ydata)
-    print 'x=%d, y=%d'%(
-        event.x, event.y)
+    # for state in my_map.drawstates:
+        # mouse_in_state = any(point_in_polygon((event.x, event.y), state) for state in my_map.drawstates)
+    print 'x=%d, y=%d'%(event.x, event.y)
 
 cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
+
 
 #olin, harvard, cmu,washu,ucdavis,plymouth state,maine orno,bradley university
 #unh,university of rhode island, u of dayton,u of wisconsin whitewater
@@ -35,7 +68,6 @@ lons = [-71.26, -71.11, -79.94,-90.31,-121.76,-71.69,-68.67,-89.61,
         -87.92,-72.79,-117.16,-73.46,
         -122.17,-84.32,-87.40,-121.81,-72.92,-71.40,-77.62,
         -74.1768,-86.80,-74.74,-72.29]
-
 
 x,y = my_map(lons, lats)
 my_map.plot(x, y, 'bo', markersize=5)
