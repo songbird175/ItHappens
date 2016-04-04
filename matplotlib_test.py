@@ -3,13 +3,43 @@ import matplotlib.pyplot as plt
 import numpy as np 
 import usa_map
 import pandas as pd
+import random
+from matplotlib.patches import Polygon
+from matplotlib.pyplot import figure, show
 
+
+fig_zoom = plt.figure()
 fig = plt.figure()
+
+zoom_map = Basemap(projection='merc', lat_0=50, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
+zoom_map.drawcoastlines()
+zoom_map.drawcountries()
+zoom_map.drawmapboundary()
+zoom_map.drawstates()
+
 my_map = Basemap(projection='merc', lat_0=50, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
 my_map.drawcoastlines()
 my_map.drawcountries()
 my_map.drawmapboundary()
 my_map.drawstates()
+
+plt.ion
+
+my_map.readshapefile('st99_d00', name='states', drawbounds=True)
+
+state_names = []
+for shape_dict in my_map.states_info:
+    state_names.append(shape_dict['NAME'])
+
+ax = plt.gca()
+
+seg = my_map.states[state_names.index('Texas')]
+poly = Polygon(seg, facecolor='red',edgecolor='red')
+ax.add_patch(poly)
+
+ax = plt.gca() # get current axes instance
+print ax
+
 
 def remap_interval(val, input_start, input_end, output_start, output_end):
     """
@@ -47,10 +77,27 @@ def OnClick(event):
         # event.button, event.x, event.y, event.xdata, event.ydata)
     # for state in my_map.drawstates:
         # mouse_in_state = any(point_in_polygon((event.x, event.y), state) for state in my_map.drawstates)
-    print 'x=%d, y=%d'%(event.x, event.y)
+    print "x=%d, y=%d"%(event.x, event.y)
 
-cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
+def in_box(event):
+    if event.x >= 80 and event.y <= 200:
+        print "x=%d, y=%d"%(event.x, event.y)
+    else:
+        print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
+        # my_map = Basemap(projection='merc', lat_0=30, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
+        # plt.axis([event.x-.5, event.x+.5, event.y-.5, event.y+.5])
 
+
+def onpress(event):
+    if event.button != 1:
+        return
+    x, y = event.x, event.y
+    axzoom.set_xlim(x - 0.5, x + 0.5)
+    axzoom.set_ylim(y - 0.5, y + 0.5)
+    zoom_map.plot(markersize=5)
+
+cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
+zoom1 = fig_zoom.canvas.mpl_connect('button_press_event', onpress)
 
 #olin, harvard, cmu,washu,ucdavis,plymouth state,maine orno,bradley university
 #unh,university of rhode island, u of dayton,u of wisconsin whitewater
@@ -70,6 +117,7 @@ lons = [-71.26, -71.11, -79.94,-90.31,-121.76,-71.69,-68.67,-89.61,
         -74.1768,-86.80,-74.74,-72.29]
 
 x,y = my_map(lons, lats)
+
 my_map.plot(x, y, 'bo', markersize=5)
 plt.show()
 
