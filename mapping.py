@@ -33,9 +33,9 @@ x,y = my_map(lons, lats)
 # print type(x)
 for i in range(len(size)):
 	if size[i] <= 5000:
-		my_map.plot(x[i], y[i], 'go', markersize=3)
+		my_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
 	elif size[i] >= 10000:
-		my_map.plot(x[i], y[i], 'yo', markersize=5)
+		my_map.plot(x[i], y[i], 'yo', markersize=size[i]/1000)
 	else:
-		my_map.plot(x[i], y[i], 'bo', markersize=7)
+		my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
 plt.show()
