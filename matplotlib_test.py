@@ -1,9 +1,7 @@
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt 
 import numpy as np 
-import usa_map
 import pandas as pd
-import random
 from matplotlib.patches import Polygon
 from matplotlib.pyplot import figure, show
 
@@ -11,13 +9,26 @@ from matplotlib.pyplot import figure, show
 fig_zoom = plt.figure()
 fig = plt.figure()
 
-zoom_map = Basemap(projection='merc', lat_0=50, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
-zoom_map.drawcoastlines()
-zoom_map.drawcountries()
-zoom_map.drawmapboundary()
-zoom_map.drawstates()
+# zoom_map = Basemap(projection='mill',
+#                  llcrnrlat=40,
+#                  llcrnrlon=-75,
+#                  urcrnrlat=43,
+#                  urcrnrlon=-69.5,
+#                  resolution='c')
+# zoom_map.drawcoastlines()
+# zoom_map.drawcountries()
+# zoom_map.drawmapboundary()
+# zoom_map.drawstates()
 
-my_map = Basemap(projection='merc', lat_0=50, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
+my_map = Basemap(projection='merc', 
+                 lat_0=50,
+                 lon_0=-100,
+                 resolution = 'l', 
+                 area_thresh = 1000.0,
+                 llcrnrlon=-125,
+                 llcrnrlat=24,
+                 urcrnrlon=-67, 
+                 urcrnrlat=50)
 my_map.drawcoastlines()
 my_map.drawcountries()
 my_map.drawmapboundary()
@@ -38,7 +49,27 @@ poly = Polygon(seg, facecolor='red',edgecolor='red')
 ax.add_patch(poly)
 
 ax = plt.gca() # get current axes instance
-print ax
+
+
+def panda_file_to_list(file_name, title1, list1):
+    """
+    The opens a saved csv file and convert it to a panda file. The 
+    panda file is separated into columns and the columns are made into
+    lists. The lists are the output of the funciton. 
+    """
+    datafile = pd.read_csv(file_name) #opens a data file
+
+    # converts the data file into columns
+    for col in datafile.columns:
+        datafile[col] = datafile[col].astype(str)
+    column1 = datafile[title1]
+    # column2 = datafile[title2].astype(float)
+
+    # creates lists from the columns
+    list1 = []
+    for col_value in column1:
+        list2.append(col_value)
+    return list1
 
 
 def remap_interval(val, input_start, input_end, output_start, output_end):
@@ -84,26 +115,11 @@ def in_box(event):
         print "x=%d, y=%d"%(event.x, event.y)
     else:
         print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
-        # my_map = Basemap(projection='merc', lat_0=30, lon_0=-100, resolution = 'l', area_thresh = 1000.0,llcrnrlon=-125, llcrnrlat=24, urcrnrlon=-67, urcrnrlat=50)
-        # plt.axis([event.x-.5, event.x+.5, event.y-.5, event.y+.5])
 
 
-def onpress(event):
-    if event.button != 1:
-        return
-    x, y = event.x, event.y
-    axzoom.set_xlim(x - 0.5, x + 0.5)
-    axzoom.set_ylim(y - 0.5, y + 0.5)
-    zoom_map.plot(markersize=5)
-
-cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
-zoom1 = fig_zoom.canvas.mpl_connect('button_press_event', onpress)
-
-#olin, harvard, cmu,washu,ucdavis,plymouth state,maine orno,bradley university
-#unh,university of rhode island, u of dayton,u of wisconsin whitewater
-#u of wisconsin green bay,westfield state,u of redlands,suny plattsburgh
-#stanford,emory,northern michigan u,csu monterey bay,yale,brown,u of rochester,
-#ramapo college,vanderbilt,princeton,dartmouth
+size = [350, 6694, 6309, 7401, 27728, 3787, 9339, 4588, 12840,
+        13589, 8529, 10971, 6668, 5590, 3779, 5565, 7019, 7829,
+        8001, 6234, 5477, 6548, 6266, 5710, 6851, 5391, 4289]
 
 lats = [42.29, 42.37, 40.44,38.64,38.53,43.75,44.90,40.70,
         43.13,42.40,41.48,39.74,42.83,
@@ -116,8 +132,51 @@ lons = [-71.26, -71.11, -79.94,-90.31,-121.76,-71.69,-68.67,-89.61,
         -122.17,-84.32,-87.40,-121.81,-72.92,-71.40,-77.62,
         -74.1768,-86.80,-74.74,-72.29]
 
+def onpress(event):
+    if event.button != 1:
+        return
+    x, y = event.x, event.y
+    coord_lat = 40
+    coord_lon = -75
+    zoom_map = Basemap(projection='mill',
+                     llcrnrlat=coord_lat,
+                     llcrnrlon=coord_lon,
+                     urcrnrlat=43,
+                     urcrnrlon=-69.5,
+                     resolution='c')
+    zoom_map.drawcoastlines()
+    zoom_map.drawcountries()
+    zoom_map.drawmapboundary()
+    zoom_map.drawstates()
+
+    for i in range(len(size)):
+        if size[i] <= 5000:
+            zoom_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+        elif size[i] >= 10000:
+            zoom_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+        else:
+            zoom_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+    plt.show()
+
+
+cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
+zoom1 = fig_zoom.canvas.mpl_connect('button_press_event', onpress)
+
+#olin, harvard, cmu,washu,ucdavis,plymouth state,maine orno,bradley university
+#unh,university of rhode island, u of dayton,u of wisconsin whitewater
+#u of wisconsin green bay,westfield state,u of redlands,suny plattsburgh
+#stanford,emory,northern michigan u,csu monterey bay,yale,brown,u of rochester,
+#ramapo college,vanderbilt,princeton,dartmouth
+
 x,y = my_map(lons, lats)
 
-my_map.plot(x, y, 'bo', markersize=5)
+for i in range(len(size)):
+    if size[i] <= 5000:
+        my_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+    elif size[i] >= 10000:
+        my_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+    else:
+        my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+
 plt.show()
 
