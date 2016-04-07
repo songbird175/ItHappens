@@ -22,11 +22,21 @@ def panda_file_to_list(file_name, title1):
     return list1
 
 def non_zero_sorting(column_title):
+    """makes two lists of tuples (nonzero number and zero numbers). Each tuple 
+    includes the name of the college, the number of students and the number 
+    of the case specified by 'column_title'.
+    """
     name = panda_file_to_list('Public_public.csv', 'Institution name')
     size = panda_file_to_list('Public_public.csv', 'Institution Size')
     unsorted_list = panda_file_to_list('Public_public.csv', column_title)
+
+    lname = panda_file_to_list('hd2011.csv', 'INSTNM')
+    lat = panda_file_to_list('hd2011.csv', 'LATITUDE')
+    lon = panda_file_to_list('hd2011.csv', 'LONGITUD')
+
     nonzero_list = []
     zero_list = []
+
     for i in range(len(unsorted_list)):
         if unsorted_list[i] == '0.0' or unsorted_list[i] == 'nan':
             tupl2 = (name[i], size[i], unsorted_list[i])
@@ -36,7 +46,27 @@ def non_zero_sorting(column_title):
             nonzero_list.append(tupl1)
     return nonzero_list
 
-print(non_zero_sorting('Sex offenses - Forcible'))
+
+def college_coords():
+    lname = panda_file_to_list('hd2011.csv', 'INSTNM')
+    lat = panda_file_to_list('hd2011.csv', 'LATITUDE')
+    lon = panda_file_to_list('hd2011.csv', 'LONGITUD')
+    name = panda_file_to_list('Public_public.csv', 'Institution name')
+
+    coords = []
+    coords_list = []
+    no_coords = []
+
+    for college1 in name:
+        for college2 in lname:
+            if college1 == college2:
+                index = lname.index(college2)
+                tupl3 = (college1, lat[index], lon[index])
+                coords.append(tupl3)
+                coords_list.append(college1)
+        if college1 not in coords_list:
+            no_coords.append(college1)
+    return [len(coords), len(coords_list), len(no_coords)
 
 
-
+print(college_coords())
