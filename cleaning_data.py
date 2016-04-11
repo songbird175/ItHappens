@@ -1,4 +1,5 @@
 #  cleaning up data
+
 import pandas as pd
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt 
@@ -16,32 +17,38 @@ def panda_to_list(file_name, title1):
     """
     datafile = pd.read_csv(file_name) #opens a data file
 
+    # puts the data in a column
     for col in datafile.columns:
         datafile[col] = datafile[col].astype(str)
     column1 = datafile[title1]
 
-    list1 = []
+    # creates a list from column data in the csv
+    list1 = [] 
     for col_value in column1:
         list1.append(col_value)
     return list1
 
 def non_zero_sorting(column_title):
-    """makes two lists of tuples (nonzero number and zero numbers). Each tuple 
-    includes the name of the college, the number of students and the number 
-    of the case specified by 'column_title'.
     """
+    returns a list of information about the college. This program is meannt to 
+    separate the colleges by the number they reported (either zero, 'nan', or nonzero).
+    """
+    # the data converted to a list
     name = panda_to_list('Public_public.csv', 'Institution name')
     size = panda_to_list('Public_public.csv', 'Institution Size')
     unsorted_list = panda_to_list('Public_public.csv', column_title)
 
+    # initialize empty lists for nonzero numbers
     nonzero_college = []
     nonzero_size = []
     nonzero_num = []
 
+    # initialize empty lists for zero numbers
     zero_college = []
     zero_size = []
     zero_num = []
 
+    # separates the unsorted list according to zero versus nonzero
     for i in range(len(unsorted_list)):
         if unsorted_list[i] == '0.0' or unsorted_list[i] == 'nan':
             zero_college.append(name[i])
@@ -51,32 +58,38 @@ def non_zero_sorting(column_title):
             nonzero_college.append(name[i])
             nonzero_size.append(size[i])
             nonzero_num.append(unsorted_list[i])
-    return [nonzero_college, nonzero_size, nonzero_num]
-    # return [[nonzero_college, nonzero_size, nonzero_num], [zero_college, zero_size, zero_num]]
+    return [nonzero_college, nonzero_size, nonzero_num, zero_college, zero_size, zero_num]
 
-
-
-def college_coords():
+def college_coords(list1):
+    """
+    returns the latitude and longitude depending on the list of colleges
+    determined by the variable 'list1'. 
+    """
+    # data containing the college name and colelge coordinates
     lname = panda_to_list('hd2011.csv', 'INSTNM')
     lat = panda_to_list('hd2011.csv', 'LATITUDE')
     lon = panda_to_list('hd2011.csv', 'LONGITUD')
-    name = non_zero_sorting('Sex offenses - Forcible')[0]
+    name = non_zero_sorting('Sex offenses - Forcible')[list1]
 
+    # initializes empty lists
     lons = []
     lats = []
     coords_list = []
     no_coords = []
     coords = []
 
+    # sorts between the two data lists by checking if
+    # the names of the colleges match. If the names of the 
+    # colleges match, that college has a latitude and longitude.
+    # If the names of the colleges don't match, that college gets
+    # added to a list of colleges we need coordinates for.
     for college1 in name:
         for college2 in lname:
             if college1 == college2:
                 index = lname.index(college2)
                 lons.append(float(lon[index]))
                 lats.append(float(lat[index]))
-                # tupl3 = (college1, lat[index], lon[index])
-                # coords.append(tupl3)
-                # coords_list.append(college1)
+                coords_list.append(college1)
         if college1 not in coords_list:
             no_coords.append(college1)
     return [lons, lats]
@@ -108,31 +121,12 @@ for shape_dict in my_map.states_info:
 
 ax = plt.gca()
 
+# changes the color of texas to red
 # seg = my_map.states[state_names.index('Texas')]
 # poly = Polygon(seg, facecolor='red',edgecolor='red')
 # ax.add_patch(poly)
 
 ax = plt.gca() # get current axes instance
-
-def panda_file_to_list(file_name, title1, list1):
-    """
-    The opens a saved csv file and convert it to a panda file. The 
-    panda file is separated into columns and the columns are made into
-    lists. The lists are the output of the funciton. 
-    """
-    datafile = pd.read_csv(file_name) #opens a data file
-
-    # converts the data file into columns
-    for col in datafile.columns:
-        datafile[col] = datafile[col].astype(str)
-    column1 = datafile[title1]
-    # column2 = datafile[title2].astype(float)
-
-    # creates lists from the columns
-    list1 = []
-    for col_value in column1:
-        list2.append(col_value)
-    return list1
 
 def point_in_polygon(pt, polygon):
     """Returns True iff `pt` is inside `polygon`.
@@ -140,23 +134,21 @@ def point_in_polygon(pt, polygon):
     return matplotlib.path.Path(polygon).contains_point(pt)
 
 def OnClick(event):
-    # print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
-        # event.button, event.x, event.y, event.xdata, event.ydata)
-    # for state in my_map.drawstates:
-        # mouse_in_state = any(point_in_polygon((event.x, event.y), state) for state in my_map.drawstates)
     print "x=%d, y=%d"%(event.x, event.y)
 
-def in_box(event):
-    if event.x >= 80 and event.y <= 200:
-        print "x=%d, y=%d"%(event.x, event.y)
-    else:
-        print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
-
-info = college_coords()
+# nonzero
+info = college_coords(0)
 lons = info[0]
 lats = info[1]
 size = non_zero_sorting('Sex offenses - Forcible')[1]
 number = non_zero_sorting('Sex offenses - Forcible')[2]
+
+# zero
+# info = college_coords(3)
+# lons = info[0]
+# lats = info[1]
+# size = non_zero_sorting('Sex offenses - Forcible')[4]
+# number = non_zero_sorting('Sex offenses - Forcible')[5]
 
 x,y = my_map(lons, lats)
 
@@ -169,7 +161,6 @@ for i in range(len(lons)):
         my_map.plot(float(x[i]), float(y[i]), 'bo', markersize=float(size[i])/3000)
 plt.show()
 
-cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
+cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 
 plt.show()
-
