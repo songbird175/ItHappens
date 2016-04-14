@@ -10,9 +10,9 @@ In order to create certain visualizations on this data we had to first find data
 
 ###Authors:
 
-* Emily Kohler, https://github.com/emilykohler
-* Katie Butler, https://github.com/KatieButler
 * Celina Bekins, https://github.com/songbird175
+* Katie Butler, https://github.com/KatieButler
+* Emily Kohler, https://github.com/emilykohler
 * Linnea Laux, https://github.com/linnealaux
 
 
