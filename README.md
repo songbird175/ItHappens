@@ -20,7 +20,11 @@ In order to create certain visualizations on this data we had to first find data
 
 Used with python 2.7
 
-Required packages/programs: Matplotlib, Matplotlib Toolkits Basemap, Pandas, Numpy - should have been installed
+Required packages/programs:
+* Matplotlib
+* Matplotlib Toolkits Basemap
+* Pandas
+* Numpy - should have been installed
 
 ###Installation:
 
