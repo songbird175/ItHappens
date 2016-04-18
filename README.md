@@ -1,19 +1,21 @@
 # Final-Project
 
-###Title: ItHappens
+###Title:
+**ItHappens**
 
 ###Description:
 
-The goal of our project is to create a series of interactive visualizations showing data on the frequency of sexual assault cases in four year colleges in the United States. The stretch goal of this project is to create an interactive website with different kinds of visuals, such as maps showing the colleges that reported a nonzero number versus the college that reported zero. 
-In order to create certain visualizations on this data we had to first find data from a variety of sources and use pandas and csv files to combines the data in ways that we could use in later libraries, such as matplotlib and basemap. 
+The goal of our project is to create a series of interactive visualizations showing data on the frequency of sexual assault cases at four year colleges across the United States. The stretch goal of this project is to create an interactive website with different kinds of visuals - such as maps - showing the colleges that reported a nonzero number versus the college that reported zero.
+
+In order to create certain visualizations on this data we had to first find data from a variety of sources and use pandas and csv files to combine the data in ways that we could use in later libraries, such as matplotlib and basemap. 
 
 
 ###Authors:
 
-* Celina Bekins, https://github.com/songbird175
-* Katie Butler, https://github.com/KatieButler
-* Emily Kohler, https://github.com/emilykohler
-* Linnea Laux, https://github.com/linnealaux
+* Celina Bekins (https://github.com/songbird175)
+* Katie Butler (https://github.com/KatieButler)
+* Emily Kohler (https://github.com/emilykohler)
+* Linnea Laux (https://github.com/linnealaux)
 
 
 ###Getting Started:
