@@ -25,54 +25,8 @@ def panda_to_list(file_name, title1):
     # creates a list from column data in the csv
     list1 = [] 
     for col_value in column1:
-        list1.append(col_value)
+        list1.append(float(col_value))
     return list1
-
-
-def non_zero_sorting(file1, return_what):
-    """
-    returns a list of information about the college. This program is meannt to 
-    separate the colleges by the number they reported (either zero, 'nan', or nonzero).
-    """
-    # the data converted to a list
-    name = panda_to_list(file1, 'name')
-    size = panda_to_list(file1, 'size')
-    unsorted_list = panda_to_list(file1, 'case')
-    lats = panda_to_list(file1, 'lats')
-    lons = panda_to_list(file1, 'lons')
-
-    # initialize empty lists for nonzero numbers
-    nonzero_college = []
-    nonzero_size = []
-    nonzero_num = []
-    nonzero_lats = []
-    nonzero_lons = []
-
-    # initialize empty lists for zero numbers
-    zero_college = []
-    zero_size = []
-    zero_num = []
-    zero_lats = []
-    zero_lons = []
-
-    # separates the unsorted list according to zero versus nonzero
-    for i in range(len(unsorted_list)):
-        if unsorted_list[i] == '0.0' or unsorted_list[i] == 'nan':
-            zero_college.append(name[i])
-            zero_size.append(float(size[i]))
-            zero_num.append(0)
-            zero_lats.append(float(lats[i]))
-            zero_lons.append(float(lons[i]))
-        else:
-            nonzero_college.append(name[i])
-            nonzero_size.append(float(size[i]))
-            nonzero_num.append(float(unsorted_list[i]))
-            nonzero_lats.append(float(lats[i]))
-            nonzero_lons.append(float(lons[i]))
-    if return_what == 'nonzero':
-        return [nonzero_college, nonzero_size, nonzero_num, nonzero_lons, nonzero_lats]
-    else:
-        return [zero_college, zero_size, zero_num, zero_lons, zero_lats]
 
 fig = plt.figure() # creates a matplotlib figure
 
@@ -120,13 +74,12 @@ def OnClick(event):
     """
     print "x=%d, y=%d"%(event.x, event.y)
 
-# nonzero or zero
-# [nonzero_college, nonzero_size, nonzero_num, nonzero_lons, nonzero_lats]
-info = non_zero_sorting('output2.csv', 'nonzero')
-lons = info[3]
-lats = info[4]
-size = info[1]
-number = info[2]
+
+# data from csv
+lons = panda_to_list('output3.csv', 'lons')
+lats = panda_to_list('output3.csv', 'lats')
+size = panda_to_list('output3.csv', 'size')
+number = panda_to_list('output3.csv', 'case')
 percent_list = []
 
 # creates the percent list
