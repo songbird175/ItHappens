@@ -1,33 +1,34 @@
 from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt 
-import numpy as np 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from matplotlib.patches import Polygon
 from matplotlib.pyplot import figure, show
 
 
 fig_zoom = plt.figure()
+
+zoom_map = Basemap(projection='mill',
+                 llcrnrlat=40,
+                 llcrnrlon=-75,
+                 urcrnrlat=43,
+                 urcrnrlon=-69.5,
+                 resolution='l')
+zoom_map.drawcoastlines()
+zoom_map.drawcountries()
+zoom_map.drawmapboundary()
+zoom_map.drawstates()
+
 fig = plt.figure()
 
-# zoom_map = Basemap(projection='mill',
-#                  llcrnrlat=40,
-#                  llcrnrlon=-75,
-#                  urcrnrlat=43,
-#                  urcrnrlon=-69.5,
-#                  resolution='c')
-# zoom_map.drawcoastlines()
-# zoom_map.drawcountries()
-# zoom_map.drawmapboundary()
-# zoom_map.drawstates()
-
-my_map = Basemap(projection='merc', 
+my_map = Basemap(projection='merc',
                  lat_0=50,
                  lon_0=-100,
-                 resolution = 'l', 
+                 resolution = 'l',
                  area_thresh = 1000.0,
                  llcrnrlon=-125,
                  llcrnrlat=24,
-                 urcrnrlon=-67, 
+                 urcrnrlon=-67,
                  urcrnrlat=50)
 my_map.drawcoastlines()
 my_map.drawcountries()
@@ -53,9 +54,9 @@ ax = plt.gca() # get current axes instance
 
 def panda_file_to_list(file_name, title1, list1):
     """
-    The opens a saved csv file and convert it to a panda file. The 
+    The opens a saved csv file and convert it to a panda file. The
     panda file is separated into columns and the columns are made into
-    lists. The lists are the output of the funciton. 
+    lists. The lists are the output of the funciton.
     """
     datafile = pd.read_csv(file_name) #opens a data file
 
@@ -74,9 +75,8 @@ def panda_file_to_list(file_name, title1, list1):
 
 def remap_interval(val, input_start, input_end, output_start, output_end):
     """
-    takes an input interval, a value in the input interval and returns a 
-    subsequent value in the output interval 
-
+    takes an input interval, a value in the input interval and returns a
+    subsequent value in the output interval
     >>> remap_interval(5, 0, 10, 0, 20)
     10
     """
@@ -179,4 +179,3 @@ for i in range(len(size)):
         my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
 
 plt.show()
-
