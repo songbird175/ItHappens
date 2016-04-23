@@ -124,11 +124,22 @@ c_lats = info[2]
 c_size = info[3]
 c_case = info[4]
 
+percent_list = []
+
+# creates the percent list
+for i in range(len(c_size)):
+    try:
+        percentage = (float(c_case[i])/float(c_size[i]))*10000
+        percent_list.append(float(percentage))
+    except:
+        percent_list.append(0.0)
+
 # creating columns in the csv file
 my_df = pd.DataFrame({'name' : c_name, 
                       'size' : c_size,
                       'lats' : c_lats,
                       'lons' : c_lons,
-                      'case' : c_case})
-my_df.to_csv('output3.csv', index=False)
+                      'case' : c_case,
+                      'perc' : percent_list})
+my_df.to_csv('output2.csv', index=False)
 
