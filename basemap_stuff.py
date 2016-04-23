@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np 
 from matplotlib.patches import Polygon
 from matplotlib.pyplot import figure, show
+from matplotlib.patches import Rectangle
 
 def panda_to_list(file_name, title1):
     """
@@ -30,7 +31,8 @@ def panda_to_list(file_name, title1):
 
 fig = plt.figure() # creates a matplotlib figure
 
-# the specifications for the size and type of map
+ax = fig.add_subplot(211)
+ax.set_title("Normal Map")
 my_map = Basemap(projection='merc', 
                  lat_0=50,
                  lon_0=-100,
@@ -76,36 +78,56 @@ def OnClick(event):
 
 
 # data from csv
-lons = panda_to_list('output3.csv', 'lons')
-lats = panda_to_list('output3.csv', 'lats')
-size = panda_to_list('output3.csv', 'size')
-number = panda_to_list('output3.csv', 'case')
-percent_list = []
-
-# creates the percent list
-for i in range(len(size)):
-    try:
-        percentage = (number[i]/size[i])*10000
-        percent_list.append(percentage)
-    except:
-        percent_list.append(0.0)
+lons = panda_to_list('output2.csv', 'lons')
+lats = panda_to_list('output2.csv', 'lats')
+size = panda_to_list('output2.csv', 'size')
+number = panda_to_list('output2.csv', 'case')
+percent_list = panda_to_list('output2.csv', 'perc')
 
 # uses the lons and lats data to define x and y on the map
-x,y = my_map(lons, lats)
+x, y = my_map(lons, lats)
 
 # creates a size and color distinction, where the size
 # of the school is proportional to the size of the dot
 # and the color of the dot indicates the percentage of cases
-for i in range(len(percent_list)):
-    if percent_list[i] <= 1:
+for i in range(len(number)):
+    if percent_list[i] == 0:
         my_map.plot(x[i], y[i], 'go', markersize=size[i]/1500)
     elif percent_list[i] >= 5:
-        my_map.plot(x[i], y[i], 'ro', markersize=size[i]/1500)
-    else:
         my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1500)
+    else:
+        my_map.plot(x[i], y[i], 'go', markersize=size[i]/1500)
 
-# calls the function that displays the x,y of the mouse click
 cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 
+
+
+# ZOOM MAP
+
+# fig2 = plt.figure()
+ax = fig.add_subplot(212)
+ax.set_title("Zoom Map - Massachusetts") 
+zoom_map = Basemap(projection='merc',
+                 llcrnrlat=40,
+                 llcrnrlon=-75,
+                 urcrnrlat=43,
+                 urcrnrlon=-69.5,
+                 resolution='l')
+zoom_map.drawcoastlines()
+zoom_map.drawcountries()
+zoom_map.drawmapboundary()
+zoom_map.drawstates()
+
+x1, y1 = zoom_map(lons, lats)
+
+for i in range(len(percent_list)):
+    if percent_list[i] <= 1:
+        zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
+    elif percent_list[i] >= 5:
+        zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
+    else:
+        zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
+
 plt.show()
+
 
