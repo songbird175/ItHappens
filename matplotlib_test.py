@@ -1,33 +1,20 @@
 from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt 
-import numpy as np 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from matplotlib.patches import Polygon
 from matplotlib.pyplot import figure, show
 
-
-fig_zoom = plt.figure()
 fig = plt.figure()
 
-# zoom_map = Basemap(projection='mill',
-#                  llcrnrlat=40,
-#                  llcrnrlon=-75,
-#                  urcrnrlat=43,
-#                  urcrnrlon=-69.5,
-#                  resolution='c')
-# zoom_map.drawcoastlines()
-# zoom_map.drawcountries()
-# zoom_map.drawmapboundary()
-# zoom_map.drawstates()
-
-my_map = Basemap(projection='merc', 
+my_map = Basemap(projection='merc',
                  lat_0=50,
                  lon_0=-100,
-                 resolution = 'l', 
+                 resolution = 'l',
                  area_thresh = 1000.0,
                  llcrnrlon=-125,
                  llcrnrlat=24,
-                 urcrnrlon=-67, 
+                 urcrnrlon=-67,
                  urcrnrlat=50)
 my_map.drawcoastlines()
 my_map.drawcountries()
@@ -53,9 +40,9 @@ ax = plt.gca() # get current axes instance
 
 def panda_file_to_list(file_name, title1, list1):
     """
-    The opens a saved csv file and convert it to a panda file. The 
+    The opens a saved csv file and convert it to a panda file. The
     panda file is separated into columns and the columns are made into
-    lists. The lists are the output of the funciton. 
+    lists. The lists are the output of the funciton.
     """
     datafile = pd.read_csv(file_name) #opens a data file
 
@@ -74,9 +61,8 @@ def panda_file_to_list(file_name, title1, list1):
 
 def remap_interval(val, input_start, input_end, output_start, output_end):
     """
-    takes an input interval, a value in the input interval and returns a 
-    subsequent value in the output interval 
-
+    takes an input interval, a value in the input interval and returns a
+    subsequent value in the output interval
     >>> remap_interval(5, 0, 10, 0, 20)
     10
     """
@@ -132,22 +118,31 @@ lons = [-71.26, -71.11, -79.94,-90.31,-121.76,-71.69,-68.67,-89.61,
         -122.17,-84.32,-87.40,-121.81,-72.92,-71.40,-77.62,
         -74.1768,-86.80,-74.74,-72.29]
 
+
 def onpress(event):
+    print "CLICKED"
     if event.button != 1:
         return
     x, y = event.x, event.y
-    coord_lat = 40
-    coord_lon = -75
+    print "X: ", x, " Y: ", y
+    # ax.set_xlim(x - 40, x + 40)
+    # ax.set_ylim(y + 75, y - 75)
+    # # figzoom.canvas.draw()
+
+    fig_zoom = plt.figure()
+
     zoom_map = Basemap(projection='mill',
-                     llcrnrlat=coord_lat,
-                     llcrnrlon=coord_lon,
+                     llcrnrlat= 40,#event.x+40,
+                     llcrnrlon= -75, #event.y-75,
                      urcrnrlat=43,
                      urcrnrlon=-69.5,
-                     resolution='c')
+                     resolution='i')
     zoom_map.drawcoastlines()
     zoom_map.drawcountries()
     zoom_map.drawmapboundary()
     zoom_map.drawstates()
+
+    x,y = my_map(lons, lats)
 
     for i in range(len(size)):
         if size[i] <= 5000:
@@ -158,9 +153,11 @@ def onpress(event):
             zoom_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
     plt.show()
 
+    fig_zoom.show()
 
 cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
-zoom1 = fig_zoom.canvas.mpl_connect('button_press_event', onpress)
+zoom1 = fig.canvas.mpl_connect('button_press_event', onpress)
+plt.show()
 
 #olin, harvard, cmu,washu,ucdavis,plymouth state,maine orno,bradley university
 #unh,university of rhode island, u of dayton,u of wisconsin whitewater
@@ -168,15 +165,39 @@ zoom1 = fig_zoom.canvas.mpl_connect('button_press_event', onpress)
 #stanford,emory,northern michigan u,csu monterey bay,yale,brown,u of rochester,
 #ramapo college,vanderbilt,princeton,dartmouth
 
-x,y = my_map(lons, lats)
+# x,y = my_map(lons, lats)
 
-for i in range(len(size)):
-    if size[i] <= 5000:
-        my_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
-    elif size[i] >= 10000:
-        my_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
-    else:
-        my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+# for i in range(len(size)):
+#     if size[i] <= 5000:
+#         my_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+#     elif size[i] >= 10000:
+#         my_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+#     else:
+#         my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
 
-plt.show()
+# plt.show()
 
+
+# fig_zoom = plt.figure()
+
+# zoom_map = Basemap(projection='mill',
+#                  llcrnrlat=40,
+#                  llcrnrlon=-75,
+#                  urcrnrlat=43,
+#                  urcrnrlon=-69.5,
+#                  resolution='i')
+# zoom_map.drawcoastlines()
+# zoom_map.drawcountries()
+# zoom_map.drawmapboundary()
+# zoom_map.drawstates()
+
+# x,y = my_map(lons, lats)
+
+# for i in range(len(size)):
+#     if size[i] <= 5000:
+#         zoom_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+#     elif size[i] >= 10000:
+#         zoom_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+#     else:
+#         zoom_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+# plt.show()
