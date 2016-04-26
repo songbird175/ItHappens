@@ -46,14 +46,28 @@ class Normal_Map(object):
         self.my_map.drawmapboundary()
         self.my_map.drawstates()
         plt.ion()
+  
+        lons = panda_to_list('output2.csv', 'lons')
+        lats = panda_to_list('output2.csv', 'lats')
+        size = panda_to_list('output2.csv', 'size')
+        number = panda_to_list('output2.csv', 'case')
 
-        self.lons = panda_to_list('output2.csv', 'lons')
-        self.lats = panda_to_list('output2.csv', 'lats')
-        self.size = panda_to_list('output2.csv', 'size')
-        self.number = panda_to_list('output2.csv', 'case')
+        x, y = self.get_x_y(lons, lats)
 
-        self.x, self.y = self.my_map(self.lons, self.lats)
+        for i in range(len(number)):
+            if number[i] == 0:
+                self.my_map.plot(x[i], y[i], 'ko', markersize=size[i]/1600)
+            elif number[i] >= 1:
+                self.my_map.plot(x[i], y[i], 'bo', markersize=size[i]/1600)
+            else:
+                self.my_map.plot(x[i], y[i], 'ro', markersize=size[i]/1600)
 
+        plt.show()
+
+
+    def get_x_y(self, lon, lat):
+        """ Returns the x, y coordinate of a given longitude and lattitude """
+        return self.my_map(*np.asarray([lon, lat]))
 
     def on_click(event):
         """ Returns the x, y coordinate of a given longitude 
@@ -61,18 +75,81 @@ class Normal_Map(object):
         print "x=%d, y=%d"%(event.x, event.y)
 
     def run(self):
-        if len(x) == len(y):
-            for i in range(len(self.number)):
-                if self.number[i] == 0:
-                    self.my_map.plot(self.x[i], self.y[i], 'ko', markersize=self.size[i]/1600)
-                elif self.number[i] >= 1:
-                    self.my_map.plot(self.x[i], self.y[i], 'bo', markersize=self.size[i]/1600)
-                else:
-                    self.my_map.plot(self.x[i], self.y[i], 'ro', markersize=self.size[i]/1600)
+        while True:
+            plt.pause(0.1)
+
+
+class Shaded_States(object):
+
+    def __init__(self):
+        """creates the map """
+        self.fig2 = plt.figure()
+        self.my_map = Basemap(projection='merc', 
+                 lat_0=50,
+                 lon_0=-100,
+                 resolution = 'l', 
+                 area_thresh = 1000.0,
+                 llcrnrlon=-125,
+                 llcrnrlat=24,
+                 urcrnrlon=-67, 
+                 urcrnrlat=50)
+        self.my_map.drawcoastlines()
+        self.my_map.drawcountries()
+        self.my_map.drawmapboundary()
+        self.my_map.drawstates()
+        plt.ion()
+
+        self.my_map.readshapefile('st99_d00', name='states', drawbounds=True)
+
+        state_names = []
+        for shape_dict in self.my_map.states_info:
+            state_names.append(shape_dict['NAME'])
+
+        number = [0, 2, 1, 1, 0, 1, 4, 5, 0, 0, 0, 0, 2, 4, 0, 0, 0, 0, 0, 2, 0, 0, 9, 8, 7, 6, 2, 1, 4, 3, 0, 4, 5, 0, 0, 0, 0, 2, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0]
+        names = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado',
+         'Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho', 
+         'Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana',
+         'Maine', 'Maryland','Massachusetts','Michigan', 'Michigan','Minnesota',
+         'Mississippi', 'Missouri','Montana','Nebraska','Nevada',
+         'New Hampshire','New Jersey','New Mexico','New York',
+         'North Carolina','North Dakota','Ohio',    
+         'Oklahoma','Oregon','Pennsylvania','Rhode Island',
+         'South Carolina','South Dakota','Tennessee','Texas','Utah',
+         'Vermont','Virginia','Washington','West Virginia',
+         'Wisconsin','Wyoming']
+
+        ax = plt.gca()
+
+        for i in range(len(number)):
+            if number[i] == 0:
+                seg = self.my_map.states[state_names.index(names[i])]
+                edge = [0, 0, 0]
+                poly = Polygon(seg, facecolor=edge,edgecolor=edge)
+                ax.add_patch(poly)
+            elif number[i] <= 2:
+                seg = self.my_map.states[state_names.index(names[i])]
+                edge = [.6, .6, .6]
+                poly = Polygon(seg, facecolor=edge,edgecolor=edge)
+                ax.add_patch(poly)
+            elif number[i] <= 4:
+                seg = self.my_map.states[state_names.index(names[i])]
+                edge = [.6, .6, .6]
+                poly = Polygon(seg, facecolor=edge,edgecolor=edge)
+                ax.add_patch(poly)
+            else:
+                seg = self.my_map.states[state_names.index(names[i])]
+                edge = [1, 1, 1]
+                poly = Polygon(seg, facecolor=edge,edgecolor=edge)
+                ax.add_patch(poly)
 
         plt.show()
 
+    def run(self):
+        while True:
+            plt.pause(0.1)
+
 
 if __name__ == '__main__':
-    cm = Normal_Map()
-    cm.__init__()
+    # cm = Normal_Map()
+    cm = Shaded_States()
+    cm.run()
