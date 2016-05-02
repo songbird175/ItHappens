@@ -27,7 +27,7 @@ def panda_to_list(file_name, title1):
 fig = plt.figure() # creates a matplotlib figure
 
 ax = fig.add_subplot(211)
-ax.set_title("Normal Map")
+ax.set_title("Click to zoom")
 my_map = Basemap(projection='merc', 
                  lat_0=50,
                  lon_0=-100,
@@ -47,19 +47,19 @@ plt.ion
 # ZOOM MAP
 
 # fig2 = plt.figure()
-ax = fig.add_subplot(212)
-ax.set_title("Click above to zoom") 
-zoom_map = Basemap(projection='mill',
-                 lat_0=50,
-                 lon_0=-100,
-                 area_thresh = 10000.0,
-                 llcrnrlon=-125,
-                 llcrnrlat=24,
-                 urcrnrlon=-67, 
-                 urcrnrlat=50,
-                 resolution = 'c')
+# ax = fig.add_subplot(212)
+# ax.set_title("Click above to zoom") 
+# zoom_map = Basemap(projection='mill',
+#                  lat_0=50,
+#                  lon_0=-100,
+#                  area_thresh = 10000.0,
+#                  llcrnrlon=-125,
+#                  llcrnrlat=24,
+#                  urcrnrlon=-67, 
+#                  urcrnrlat=50,
+#                  resolution = 'c')
 
-zoom_map.drawmapboundary()
+# zoom_map.drawmapboundary()
 
 
 def in_box(event):
@@ -69,18 +69,44 @@ def in_box(event):
         print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
 
 def on_click(event):
+    fig.clf()
     print "CLICKED"
     if event.button != 1:
         return
-    x, y = float(event.x), float(event.y)
+    
+    plt.subplot(2,1,1)
+
+    ax = fig.add_subplot(211)
+    ax.set_title("Click to zoom")
+    my_map = Basemap(projection='merc', 
+                     lat_0=50,
+                     lon_0=-100,
+                     resolution = 'l', 
+                     area_thresh = 100000.0,
+                     llcrnrlon=-125,
+                     llcrnrlat=24,
+                     urcrnrlon=-67, 
+                     urcrnrlat=50)
+    my_map.drawcoastlines()
+    my_map.drawcountries()
+    my_map.drawmapboundary()
+    my_map.drawstates()
+
+    x, y = float(event.xdata), float(event.ydata)
+    print x, y
     lon = 0
     lat = 0
-    my_map = Basemap()
-    lon,lat = my_map(x,y,inverse=True)
-    print lon, lat
-    
-    plt.subplot(2,1,2)
-    zoom_map = Basemap(llcrnrlat=lat-1.5,
+    lon, lat = my_map(x,y,inverse=True)
+
+    plt.ion
+
+    ax = fig.add_subplot(212)
+    ax.set_title("Zoom Map") 
+    zoom_map = Basemap(projection='merc',
+                     lat_0=50,
+                     lon_0=-100,
+                     area_thresh = 10000.0,
+                     llcrnrlat=lat-1.5,
                      llcrnrlon=lon-2.75,
                      urcrnrlat=lat+1.5,
                      urcrnrlon=lon+2.75,
@@ -91,6 +117,21 @@ def on_click(event):
     zoom_map.drawstates()
 
     fig.canvas.draw()
+
+def dots(self):
+    # olin, university of rhode island,bard,northeastern,risd,nyu,tufts
+        size = [350, 6694, 6309, 27728, 8000, 20000, 5000]
+        lats = [42.293167,41.485338,42.020389,42.339806,41.825842,40.730104,42.407484]
+        lons = [-71.265859,-71.531236,-73.912248,-71.091365,-71.40993,-74.002028,-71.121217]
+        x,y = self.m(lons, lats)
+        for i in range(len(size)):
+            if size[i] <= 5000:
+                self.m.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+            elif size[i] >= 10000:
+                self.m.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+            else:
+                self.m.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+        plt.show()
 
 cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
 fig.canvas.mpl_connect('button_press_event',on_click)
