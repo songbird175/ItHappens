@@ -1,15 +1,15 @@
 <!doctype html>
 <html>
 	<head>
-		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' />
-		<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
-		<link rel='stylesheet' href='test_style.css' />
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' /><!--using a font from google's api-->
+		<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' /><!--establishes that we're using bootstrap?-->
+		<link rel='stylesheet' href='test_style.css' /><!--links style of our classes to the css code we write-->
 	</head>
 	<body>
-		<header class="header">
+		<header class="header"><!--first header-->
 			<div class="container">
 				<div class="row">
-					<div class="col-xs-12 col-md-12">
+					<div class="col-xs-12 col-md-12"><!--The screen is divided into 12 columns. This gives how many of those columns are filled by the header-->
 						<h1>Have you been sexually assaulted on a college campus?</h1>
 					</div>
 				</div>
@@ -18,11 +18,11 @@
 		<header class="header">
 			<div class="container">
 				<div class="row">
-					<div class="col-xs-12 col-md-12">
+					<div class="col-xs-12 col-md-12"><!--xs refers to phone screens; md refers to laptop screens. sm is tablet and lg is large desktop-->
 						<h2>Which state is the college in?</h2>
-						<div class="dropdown">
+						<div class="dropdown"><!--creates a dropdown button-->
 				  			<select id="state">
-				  				<option>State</option>
+				  				<option>State</option><!--trying to figure out how to link options to a list instead of typing out all the state abbreviations-->
 				  				<option>Here is the first option</option>
 				  				<option>Here is the second option</option>
 				  			</select>
@@ -35,7 +35,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12 col-md-12">
-						<h2>Which college is it?</h2>
+						<h2>Which campus is it?</h2>
 					</div>
 				</div>
 			</div>
@@ -43,15 +43,15 @@
 		<div class="main">
 			<div class="container">
 				<div class="row">
-					<form class="form" />
+					<form class="form" /><!--input form!-->
 						<div class="col-xs-10 col-md-10">
-							<input id="school" list="schools" type="text" placeholder="College">
-							<datalist id="schools">
+							<input id="school" list="schools" type="text" placeholder="Campus"><!--creates a typing input field, w/ "Campus" as placeholder text-->
+							<datalist id="schools"><!--need to figure out how to link this to a list, as well. when that's done, autofill will be available-->
 								
 							</datalist>
 						</div>
 						<div class="col-xs-2 col-md-2">
-							<button type="submit" class="btn">Save</button>
+							<button type="submit" class="btn">Save</button><!--save button-->
 						</div>
 					</form>
 				</div>
@@ -74,7 +74,7 @@
 							<input id="year" type="text" placeholder="YYYY">
 						</div>
 						<div class="col-xs-2 col-md-2">
-							<button type="submit" class="btn">Save</button>
+							<button type="submit" class="btn">Save</button><!--I want to eventually figure out how to save everything using just one button-->
 						</div>
 					</form>
 				</div>
@@ -105,7 +105,7 @@
 		</div>
 
 
-		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-		<script src="save_testing.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script><!--lets us use jquery-->
+		<script src="save_testing.js"></script><!--links to our jquery script for use-->
 	</body>
 </html>

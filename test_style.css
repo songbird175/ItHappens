@@ -5,25 +5,24 @@ html, body {
 
 h1 {
 	font-size: 48px;
-	font-weight: 400;
-	padding-top: 40px;
+	padding-top: 30px; /*nice top margin so we're not squishing words up by the URL bar*/
 }
 
 h2 {
 	font-size: 32px;
-	padding: 10px 20px;
+	padding: 10px 20px; /*provides a little bit of vertical space and starts a 20px indent from the left (technically also pads the right by 20px)*/
+	padding-top: 30px; /*separates the questions nicely*/
 }
 
 .dropdown {
-	padding-top: 10px;
-    padding-left: 20px;
-    display: block;
+    padding-left: 20px; /*keeping alignment consistent*/
     font-size: 24px;
 }
 
 form {
 	font-size: 24px;
-	padding-left: 20px;
+	padding-left: 20px; /*dat alignment*/
+
 }
 
 form input {
@@ -31,13 +30,13 @@ form input {
 	border: none;
 
 	font-size: 24px;
-	padding: 5px 10px;
-	width: 100%;
+	padding: 5px 10px; /*height and width of the form box around the placeholder text*/
+	width: 100%; /*The html assigns a certain number of columns to this form. This determines the percentage of those columns filled by the form*/
 
 	transition: background 1.5s, border 1.5s;
 }
 
-form input:focus {
+form input:focus /*not sure why it needs to be focused*/ {
 	background: transparent; /*background after clicking in the box*/
 	border: 1.5px solid #7070ff; /*border after click*/
 	outline: none; /*prevents fuzzy highlight outline from forming after click*/
