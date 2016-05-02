@@ -1,0 +1,64 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+
+h1 {
+	font-size: 48px;
+	font-weight: 400;
+	padding-top: 40px;
+}
+
+h2 {
+	font-size: 32px;
+	padding: 10px 20px;
+}
+
+.dropdown {
+	padding-top: 10px;
+    padding-left: 20px;
+    display: block;
+    font-size: 24px;
+}
+
+form {
+	font-size: 24px;
+	padding-left: 20px;
+}
+
+form input {
+	background: #f0f0f0;
+	border: none;
+
+	font-size: 24px;
+	padding: 5px 10px;
+	width: 100%;
+
+	transition: background 1.5s, border 1.5s;
+}
+
+form input:focus {
+	background: transparent; /*background after clicking in the box*/
+	border: 1.5px solid #7070ff; /*border after click*/
+	outline: none; /*prevents fuzzy highlight outline from forming after click*/
+}
+
+
+button.btn {
+	background: transparent; /*standing background color*/
+	border: none;
+
+	color: #00f28f; /*button text color w/ no cursor over it*/
+	cursor: pointer; /*changes the cursor to a pointer when over the button*/
+
+	font-size: 24px;
+	padding: 5px 10px; /*size of the button around the text*/
+
+	transition: background 1.5s, color 1.5s;
+}
+
+button.btn:hover {
+	background: #00f28f; /*This changes the color of the button background when you hover over it*/
+	color: #fff; /*Same thing, but for text*/
+}
+
