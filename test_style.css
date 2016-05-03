@@ -1,0 +1,63 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+
+h1 {
+	font-size: 48px;
+	padding-top: 30px; /*nice top margin so we're not squishing words up by the URL bar*/
+}
+
+h2 {
+	font-size: 32px;
+	padding: 10px 20px; /*provides a little bit of vertical space and starts a 20px indent from the left (technically also pads the right by 20px)*/
+	padding-top: 30px; /*separates the questions nicely*/
+}
+
+.dropdown {
+    padding-left: 20px; /*keeping alignment consistent*/
+    font-size: 24px;
+}
+
+form {
+	font-size: 24px;
+	padding-left: 20px; /*dat alignment*/
+
+}
+
+form input {
+	background: #f0f0f0;
+	border: none;
+
+	font-size: 24px;
+	padding: 5px 10px; /*height and width of the form box around the placeholder text*/
+	width: 100%; /*The html assigns a certain number of columns to this form. This determines the percentage of those columns filled by the form*/
+
+	transition: background 1.5s, border 1.5s;
+}
+
+form input:focus /*not sure why it needs to be focused*/ {
+	background: transparent; /*background after clicking in the box*/
+	border: 1.5px solid #7070ff; /*border after click*/
+	outline: none; /*prevents fuzzy highlight outline from forming after click*/
+}
+
+
+button.btn {
+	background: transparent; /*standing background color*/
+	border: none;
+
+	color: #00f28f; /*button text color w/ no cursor over it*/
+	cursor: pointer; /*changes the cursor to a pointer when over the button*/
+
+	font-size: 24px;
+	padding: 5px 10px; /*size of the button around the text*/
+
+	transition: background 1.5s, color 1.5s;
+}
+
+button.btn:hover {
+	background: #00f28f; /*This changes the color of the button background when you hover over it*/
+	color: #fff; /*Same thing, but for text*/
+}
+
