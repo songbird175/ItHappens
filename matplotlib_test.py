@@ -21,31 +21,21 @@ my_map.drawcountries()
 my_map.drawmapboundary()
 my_map.drawstates()
 
-# x, y = my_map(lons, lats)
-
-# for i in range(len(percent_list)):
-#     if percent_list[i] <= 1:
-#         zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
-#     elif percent_list[i] >= 5:
-#         zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
-#     else:
-#         zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1500)
-
 plt.ion
 
-# my_map.readshapefile('st99_d00', name='states', drawbounds=True)
+my_map.readshapefile('st99_d00', name='states', drawbounds=True)
 
-# state_names = []
-# for shape_dict in my_map.states_info:
-#     state_names.append(shape_dict['NAME'])
+state_names = []
+for shape_dict in my_map.states_info:
+    state_names.append(shape_dict['NAME'])
 
-# ax = plt.gca()
+ax = plt.gca()
 
-# seg = my_map.states[state_names.index('Texas')]
-# poly = Polygon(seg, facecolor='red',edgecolor='red')
-# ax.add_patch(poly)
+seg = my_map.states[state_names.index('Texas')]
+poly = Polygon(seg, facecolor='red',edgecolor='red')
+ax.add_patch(poly)
 
-# ax = plt.gca() # get current axes instance
+ax = plt.gca() # get current axes instance
 
 
 def panda_file_to_list(file_name, title1, list1):
@@ -133,47 +123,37 @@ def onpress(event):
     print "CLICKED"
     if event.button != 1:
         return
-    x, y = event.xdata, event.ydata
+    x, y = event.x, event.y
     print "X: ", x, " Y: ", y
-    lon = 0
-    lat = 0
-    lon, lat = my_map(x,y,inverse=True)
     # ax.set_xlim(x - 40, x + 40)
     # ax.set_ylim(y + 75, y - 75)
     # # figzoom.canvas.draw()
 
-    if (fig_zoom = plt.figure()) == True:
-        fig_zoom.clf()
-        fig_zoom = plt.figure()
-    else fig_zoom = plt.figure()
+    fig_zoom = plt.figure()
 
-    zoom_map = Basemap(projection='merc',
-                     lat_0=50,
-                     lon_0=-100,
-                     area_thresh = 10000.0,
-                     llcrnrlat=lat-1.5,
-                     llcrnrlon=lon-2.75,
-                     urcrnrlat=lat+1.5,
-                     urcrnrlon=lon+2.75,
+    zoom_map = Basemap(projection='mill',
+                     llcrnrlat= 40,#event.x+40,
+                     llcrnrlon= -75, #event.y-75,
+                     urcrnrlat=43,
+                     urcrnrlon=-69.5,
                      resolution='i')
     zoom_map.drawcoastlines()
     zoom_map.drawcountries()
     zoom_map.drawmapboundary()
     zoom_map.drawstates()
 
-    # x1, y1 = zoom_map(lons, lats)
+    x,y = my_map(lons, lats)
 
-    # for i in range(len(size)):
-    #     if size[i] <= 5000:
-    #         zoom_map.plot(x1[i], y1[i], 'go', markersize=size[i]/1000)
-    #     elif size[i] >= 10000:
-    #         zoom_map.plot(x1[i], y1[i], 'ro', markersize=size[i]/1000)
-    #     else:
-    #         zoom_map.plot(x1[i], y1[i], 'bo', markersize=size[i]/1000)
-    # plt.show()
+    for i in range(len(size)):
+        if size[i] <= 5000:
+            zoom_map.plot(x[i], y[i], 'go', markersize=size[i]/1000)
+        elif size[i] >= 10000:
+            zoom_map.plot(x[i], y[i], 'ro', markersize=size[i]/1000)
+        else:
+            zoom_map.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
+    plt.show()
 
     fig_zoom.show()
-    onpress()
 
 cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
 zoom1 = fig.canvas.mpl_connect('button_press_event', onpress)
