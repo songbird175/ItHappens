@@ -8,6 +8,8 @@ def remap_interval(val, input_start, input_end, output_start, output_end):
     """
     takes an input interval, a value in the input interval and returns a 
     subsequent value in the output interval 
+    >>>remap_interval(1,0,2,0,10)
+    5
     """
     #everything needs to be a float
     float(val)
