@@ -63,21 +63,32 @@ plt.ion
 
 
 def in_box(event):
+    """
+    If the event values of x and y are within a reasonable range, this function prints 
+    the values and a w value of zero. If they're out of range, it just prints their 
+    values.
+    """
     if event.x >= 80 and event.y <= 200:
         print "x=%d, y=%d"%(event.x, event.y)
     else:
         print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
 
 def on_click(event):
+    """
+    This function clears the figure completely and redraws the main map as a subplot. 
+    If main map is clicked, a subplot showing a zoomed in version will pop up beneath it.
+    If the main map is clicked again, it will zoom in on the newly clicked area.
+    """
     fig.clf()
     print "CLICKED"
+    # """ The function only continues if button has been pressed once """
     if event.button != 1:
         return
-    
+    # """Replots the large map subplot"""
     plt.subplot(2,1,1)
 
     ax = fig.add_subplot(211)
-    ax.set_title("Click to zoom")
+    ax.set_title("Click Map to Zoom")
     my_map = Basemap(projection='merc', 
                      lat_0=50,
                      lon_0=-100,
@@ -91,14 +102,17 @@ def on_click(event):
     my_map.drawcountries()
     my_map.drawmapboundary()
     my_map.drawstates()
+    """
+    Transfers xdata and ydata from the mouseclick to longitude and latitude coordinates
+    """
 
     x, y = float(event.xdata), float(event.ydata)
-    print x, y
+    # print x, y
     lon = 0
     lat = 0
     lon, lat = my_map(x,y,inverse=True)
 
-    plt.ion
+    # plt.ion
 
     ax = fig.add_subplot(212)
     ax.set_title("Zoom Map") 
@@ -133,7 +147,7 @@ def dots(self):
                 self.m.plot(x[i], y[i], 'bo', markersize=size[i]/1000)
         plt.show()
 
-cid_up = fig.canvas.mpl_connect('button_press_event', in_box)
+fig.canvas.mpl_connect('button_press_event', in_box)
 fig.canvas.mpl_connect('button_press_event',on_click)
 
 plt.show()
