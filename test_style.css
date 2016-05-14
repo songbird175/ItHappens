@@ -10,10 +10,15 @@ h1 {
 	padding-top: 30px; /*nice top margin so we're not squishing words up by the URL bar*/
 }
 
+h3 {
+	font-size: 28px;
+	padding-left: 20px;
+}
+
 h2 {
 	font-size: 32px;
 	padding: 10px 20px; /*provides a little bit of vertical space and starts a 20px indent from the left (technically also pads the right by 20px)*/
-	padding-top: 30px; /*separates the questions nicely*/
+	padding-top: 20px; /*separates the questions nicely*/
 }
 
 .dropdown {
@@ -24,6 +29,7 @@ h2 {
 form {
 	font-size: 24px;
 	padding-left: 20px; /*dat alignment*/
+	padding-bottom: 40px;
 
 }
 
