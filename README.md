@@ -40,7 +40,10 @@ To install pandas: sudo apt-get install python-pandas
 
 
 ###Usage:
-The program takes CSV files as input and yields a map of colleges across the United States with color and size coded dots, as well as yet-to-be-determined other figures. It can be run with “python [filename]” in the terminal.
+The program takes CSV files as input and yields a map of colleges across the United States with color and size coded dots, as well as yet-to-be-determined other figures. It can be run with “python [filename]” in the terminal. Files that can be run include:
+* object_basemap.py - draws US map with dots and US map with shading
+* object_bm.py - draws US map and a zoomed in subplot when clicked
+* otherpictures.py - creates a polar plot comparing Ivies
 
 
 ###License:
