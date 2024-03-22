@@ -144,7 +144,7 @@ no_c = info[8]
 percent_list = []
 for i in range(len(c_size)):
     try:
-        percentage = (float(c_case3[i])/float(c_size3[i]))*10000
+        percentage = (float(c_case3[i])/float(c_size[i]))*10000
         percent_list.append(float(percentage))
     except:
         percent_list.append(0.0)

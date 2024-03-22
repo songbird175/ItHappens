@@ -72,9 +72,9 @@ class ZoomMap:
         values.
         """
         if event.x >= 80 and event.y <= 200:
-            print "x=%d, y=%d"%(event.x, event.y)
+            print("x=%d, y=%d"%(event.x, event.y))
         else:
-            print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
+            print("x=%d, y=%d w=%d"%(event.x, event.y, 0))
 
     def get_x_y(self, lon, lat):
         """ Returns the x, y coordinate of a given longitude and lattitude """
@@ -88,7 +88,7 @@ class ZoomMap:
         """
         self.fig.clf() # Clears the entire figure
         
-        print "CLICKED"
+        print("CLICKED")
         
         """ The function only continues if button has been pressed once """
         if event.button != 1:
@@ -133,7 +133,7 @@ class ZoomMap:
         """
         # x1, y1 = float(event.xdata), float(event.ydata)
         x1, y1 = event.xdata, event.ydata
-        print x1, y1
+        print(x1, y1)
         lon1 = 0
         lat1 = 0
         lon1, lat1 = self.my_map(x1,y1,inverse=True)

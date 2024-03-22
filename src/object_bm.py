@@ -57,9 +57,9 @@ class ZoomMap:
         values.
         """
         if event.x >= 80 and event.y <= 200:
-            print "x=%d, y=%d"%(event.x, event.y)
+            print("x=%d, y=%d"%(event.x, event.y))
         else:
-            print "x=%d, y=%d w=%d"%(event.x, event.y, 0)
+            print("x=%d, y=%d w=%d"%(event.x, event.y, 0))
 
     def on_click(self, event):
         """
@@ -69,7 +69,7 @@ class ZoomMap:
         """
         self.fig.clf() # Clears the entire figure
         
-        print "CLICKED"
+        print("CLICKED")
         
         """ The function only continues if button has been pressed once """
         if event.button != 1:
@@ -95,7 +95,7 @@ class ZoomMap:
         Transfers xdata and ydata from the mouseclick to longitude and latitude coordinates
         """
         x, y = float(event.xdata), float(event.ydata)
-        print x, y
+        print(x, y)
         lon = 0
         lat = 0
         lon, lat = self.my_map(x,y,inverse=True)

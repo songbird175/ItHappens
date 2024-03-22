@@ -85,7 +85,7 @@ class Normal_Map(object):
 
     def on_click(event):
         """ prints the x, y coordinates when the mouse is clicked"""
-        print "x=%d, y=%d"%(event.x, event.y)
+        print("x=%d, y=%d"%(event.x, event.y))
 
     def run(self):
         """runs the program"""
@@ -121,7 +121,7 @@ class Shaded_States(object):
         state_names = []
         for shape_dict in self.my_map.states_info:
             state_names.append(shape_dict['NAME'])
-        print state_names
+        print(state_names)
 
         # data
         names = ['New Jersey', 'New York', 'Virginia', 'Vermont', 
